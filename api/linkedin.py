@@ -30,10 +30,6 @@ def default_evade():
 class Linkedin(object):
     """
     Class for accessing the LinkedIn API.
-    :param username: Username of LinkedIn account.
-    :type username: str
-    :param password: Password of LinkedIn account.
-    :type password: str
     """
 
 

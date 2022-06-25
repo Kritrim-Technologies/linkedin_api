@@ -18,10 +18,8 @@ def token_required(f):
         if not token:
             return jsonify({'message': 'Token is missing'}), 403
 
-     
         data = jwt.decode(token, app.config['SECRET_KEY'])
-            
-       
+
         return f(*args, **kwargs)
     return decorated
 
@@ -41,11 +39,15 @@ def login_api():
     return make_response('Could not verify!', 401, {'WWW-Authenticate':'Basic realm="Login Required"'})
 
 @app.route('/api/login_linkedin')
+@token_required
 def login():
+
     username = request.values.get('username')
     password = request.values.get('password')
+
+   
     if username and password:
-        return jsonify(api.authenticate(username, password))
+        return jsonify(api.authenticate(username, password)), 201
         
     return render_template('login.html')
 

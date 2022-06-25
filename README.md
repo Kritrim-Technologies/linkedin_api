@@ -1,6 +1,6 @@
 # Linkedin_API
 
-[`libkedin_API`](https://github.com/bi-kash/linkedin_api) is an linkedin scrapper for getting information out of linkedin using its voager api. If you would like assistance with using the tradelib you can email us at bikashtimsina76@gmail.com.
+[`libkedin_API`](https://github.com/bi-kash/linkedin_api) is an linkedin scrapper for getting information out of linkedin using its voager api. If you would like assistance with using the this, you can email us at bikashtimsina76@gmail.com.
 
 # Installation instruction
 1. Assumption is you already have python3 installed on your machine
@@ -27,7 +27,7 @@
 
 2. Provide linkedin credential
     ```
-    curl -XGET -G 127.0.0.1:5000/api/login_linkedin --data-urlencode 'username=youremail@gmail.com' --data-urlencode 'password=yourpassword'
+    curl -XGET -G 127.0.0.1:5000/api/login_linkedin --data-urlencode 'username=youremail@gmail.com' --data-urlencode 'password=yourpassword' --data-urlencode 'token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYmlrYXNoIiwiZXhwIjoxNjU2MTY3NzQ2fQ.iG8kl13kmtZUEcXZXfs9FWtlZbeaFC-UqsYhZb6-jNs'
     ```
 
 3. Get information about your own profile
