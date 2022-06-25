@@ -18,8 +18,10 @@ def token_required(f):
         token = request.args.get("token")
         if not token:
             return jsonify({"message": "Token is missing"}), 403
-
-        data = jwt.decode(token, app.config["SECRET_KEY"])
+        try:
+            data = jwt.decode(token, app.config["SECRET_KEY"])
+        except:
+            return jsonify({'message':'Token has expired'}), 403
 
         return f(*args, **kwargs)
 
