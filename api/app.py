@@ -54,6 +54,8 @@ def login():
 @app.route('/api/me')
 @token_required
 def get_profile():
+    if not api.authenticated:
+        return jsonify({"message":"Not authenticated with linkedin credentials"})
     me = {}
     profile = api.get_user_profile()
     urn_id=get_id_from_urn(profile['miniProfile']['entityUrn'])
@@ -74,6 +76,8 @@ def get_profile():
 @app.route('/api/connects')
 @token_required
 def get_connects():
+    if not api.authenticated:
+        return jsonify({"message":"Not authenticated with linkedin credentials"})
     profile = api.get_user_profile()
     urn_id=get_id_from_urn(profile['miniProfile']['entityUrn'])
     profile_connections = api.get_profile_connections(urn_id)
@@ -82,6 +86,8 @@ def get_connects():
 @app.route('/api/connects/info')
 @token_required
 def get_connect_contacts():
+    if not api.authenticated:
+        return jsonify({"message":"Not authenticated with linkedin credentials"})
     profile = api.get_user_profile()
     urn_id=get_id_from_urn(profile['miniProfile']['entityUrn'])
     profile_connections = api.get_profile_connections(urn_id)

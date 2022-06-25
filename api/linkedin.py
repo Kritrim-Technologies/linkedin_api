@@ -45,11 +45,13 @@ class Linkedin(object):
     ):
         """Constructor method"""
         self.client = Client()
+        self.authenticated = False
     
 
            
     def authenticate(self, username, password):
-         return self.client.authenticate(username, password)
+        self.authenticated = True
+        return self.client.authenticate(username, password)
 
     def _fetch(self, uri, evade=default_evade, base_request=False, **kwargs):
         """GET request to Linkedin API"""
@@ -250,7 +252,8 @@ class Linkedin(object):
         for item in experience:
             del_it = ["company", "companyUrn", "entityUrn", "geoUrn", "region"]
             for it in del_it:
-                del item[it]
+                if it in item:
+                    del item[it]
 
 
         profile["experience"] = experience
