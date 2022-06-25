@@ -14,6 +14,14 @@
     ```
     pip3 install -r requirements.txt
     ```
+4. Run api on localhost
+    ```
+    python3 run.py
+    ```
+5. Run test
+    ```
+    pytest test_api.py
+    ```
 
 # API documentation
 1. Login to api. It's a simple authentication system. No user registration of any kind and no database.

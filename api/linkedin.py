@@ -7,7 +7,9 @@ from time import sleep, time
 from urllib.parse import urlencode, quote_plus
 import json
 from operator import itemgetter
-cookies_dir = '.cookie.jr'
+
+cookies_dir = ".cookie.jr"
+
 
 def get_id_from_urn(urn):
     """
@@ -15,6 +17,7 @@ def get_id_from_urn(urn):
     Example: urn:li:fs_miniProfile:<id>
     """
     return urn.split(":")[3]
+
 
 from api.client import Client
 
@@ -32,23 +35,16 @@ class Linkedin(object):
     Class for accessing the LinkedIn API.
     """
 
-
-
     _MAX_SEARCH_COUNT = 49  # max seems to be 49, and min seems to be 2
     _MAX_REPEATED_REQUESTS = (
         200  # VERY conservative max requests count to avoid rate-limit
     )
 
-    def __init__(
-        self
-
-    ):
+    def __init__(self):
         """Constructor method"""
         self.client = Client()
         self.authenticated = False
-    
 
-           
     def authenticate(self, username, password):
         self.authenticated = True
         return self.client.authenticate(username, password)
@@ -60,10 +56,6 @@ class Linkedin(object):
         url = f"{self.client.API_BASE_URL if not base_request else self.client.LINKEDIN_BASE_URL}{uri}"
         print(url)
         return self.client.session.get(url, **kwargs)
-
-
-
-
 
     def search(self, params, limit=-1, offset=0):
         """Perform a LinkedIn search.
@@ -126,11 +118,9 @@ class Linkedin(object):
         include_private_profiles=False,  # profiles without a public id, "Linkedin Member"
         **kwargs,
     ):
-        
-        
+
         filters = ["resultType->PEOPLE"]
         filters.append(f"connectionOf->{connection_of}")
-
 
         params = {"filters": "List({})".format(",".join(filters))}
         data = self.search(params, **kwargs)
@@ -149,10 +139,6 @@ class Linkedin(object):
             )
 
         return results
-
-
-
-
 
     def get_profile_contact_info(self, public_id=None, urn_id=None):
         """Fetch contact information for a given LinkedIn profile. Pass a [public_id] or a [urn_id].
@@ -213,8 +199,7 @@ class Linkedin(object):
         skills = []
 
         for item in data:
-            skills.append(item['name'])
-            
+            skills.append(item["name"])
 
         return skills
 
@@ -238,10 +223,23 @@ class Linkedin(object):
 
         # massage [profile] data
         profile = data["profile"]
-        
 
-        deleted_items = ["defaultLocale", "supportedLocales", "versionTag", "showEducationOnProfileTopCard", 'entityUrn', 'elt', 
-        'geoCountryUrn', "geoLocation", "geoLocationBackfilled", "industryUrn", "member_urn", "profilePicture", "profilePictureOriginalImage", "miniProfile"]
+        deleted_items = [
+            "defaultLocale",
+            "supportedLocales",
+            "versionTag",
+            "showEducationOnProfileTopCard",
+            "entityUrn",
+            "elt",
+            "geoCountryUrn",
+            "geoLocation",
+            "geoLocationBackfilled",
+            "industryUrn",
+            "member_urn",
+            "profilePicture",
+            "profilePictureOriginalImage",
+            "miniProfile",
+        ]
 
         for item in deleted_items:
             if item in profile:
@@ -255,17 +253,16 @@ class Linkedin(object):
                 if it in item:
                     del item[it]
 
-
         profile["experience"] = experience
 
         # massage [education] data
-        
+
         education = data["educationView"]["elements"]
         for item in education:
-            del item['entityUrn']
-            if 'school' in item:
-                del item['school']
-                del item['schoolUrn']
+            del item["entityUrn"]
+            if "school" in item:
+                del item["school"]
+                del item["schoolUrn"]
 
         profile["education"] = education
 
@@ -320,14 +317,12 @@ class Linkedin(object):
         """
         return self.search_people(connection_of=urn_id)
 
-
     def get_user_profile(self):
         """Get the current user profile. If not cached, a network request will be fired.
         :return: Profile data for currently logged in user
         :rtype: dict
         """
-   
+
         res = self._fetch(f"/me")
         me_profile = res.json()
         return me_profile
-

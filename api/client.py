@@ -50,17 +50,14 @@ class Client(object):
         "Accept-Language": "en-us",
     }
 
- 
     def __init__(self):
         requests.packages.urllib3.disable_warnings()
         self.session = requests.session()
-     
+
         self.session.proxies.update({})
         self.session.headers.update(Client.REQUEST_HEADERS)
 
-    
         self._use_cookie_cache = True
-
 
     def _request_session_cookies(self):
         """
@@ -68,7 +65,7 @@ class Client(object):
         """
         if self._use_cookie_cache:
             print("Attmepting to read cookie file")
-          
+
             try:
                 with open(COOKIE_FILE_PATH, "rb") as f:
                     cookies = pickle.load(f)
@@ -120,7 +117,7 @@ class Client(object):
             data=payload,
             cookies=self.session.cookies,
             headers=Client.AUTH_REQUEST_HEADERS,
-            verify=False
+            verify=False,
         )
 
         data = res.json()
@@ -136,4 +133,3 @@ class Client(object):
 
         self._set_session_cookies(res.cookies)
         return data
-
