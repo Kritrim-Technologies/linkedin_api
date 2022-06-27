@@ -285,7 +285,8 @@ class Linkedin(object):
         for item in certifications:
             del_it = ["entityUrn", "companyUrn", "company"]
             for it in del_it:
-                del item[it]
+                if it in item:
+                    del item[it]
         profile["certifications"] = certifications
 
         # massage [volunteer] data

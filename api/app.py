@@ -106,8 +106,10 @@ def get_connect_contacts():
     profile = api.get_user_profile()
     urn_id = get_id_from_urn(profile["miniProfile"]["entityUrn"])
     profile_connections = api.get_profile_connections(urn_id)
+    max_len = 5 if len(profile_connections)>=5 else len(profile_connections)
     infos = []
-    for profile_connection in profile_connections:
+    for i in range(max_len):
+        profile_connection = profile_connections[i]
         info = {}
         urn_id = profile_connection["urn_id"]
         public_id = profile_connection["public_id"]
